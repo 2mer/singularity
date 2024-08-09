@@ -1,0 +1,20 @@
+{
+	"name": "@sgty/<PACKAGE_NAME>",
+	"version": "1.0.0",
+	"description": "",
+	"main": "dist/index.js",
+	"module": "dist/index.mjs",
+	"types": "dist/index.dts",
+	"scripts": {
+		"build": "tsup",
+		"test": "jest"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"jest": "^29.7.0",
+		"tsup": "^8.2.4",
+		"typescript": "^5.5.4"
+	}
+}
