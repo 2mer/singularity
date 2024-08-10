@@ -5,6 +5,12 @@ importers:
   .:
     specifiers: {}
 
+  applications/sandbox:
+    specifiers:
+      '@sgty/math': workspace:^1.0.0
+    dependencies:
+      '@sgty/math': link:../../packages/math
+
   packages/math:
     specifiers:
       jest: ^29.7.0
