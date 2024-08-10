@@ -1,0 +1,8 @@
+# Exclude everything except dist and package.json
+*
+
+# Don't ignore the dist folder
+!dist/
+
+# Don't ignore the package.json file
+!package.json
