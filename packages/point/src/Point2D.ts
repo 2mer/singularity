@@ -6,10 +6,12 @@ function h([x, y = x]: any[]): Point2D {
 	return new Point2D(x, y);
 }
 
-export class Point2D {
+export abstract class AbstractPoint2D {
 
-	constructor(public x: number = 0, public y: number = 0) {
-	}
+	abstract get x(): number;
+	abstract get y(): number;
+	abstract set x(v: number);
+	abstract set y(v: number);
 
 	add(x: number, y?: number): Point2D;
 	add(other: Point2D): Point2D;
@@ -148,6 +150,41 @@ export class Point2D {
 
 	hash() {
 		return `${this.x},${this.y}`
+	}
+}
+
+export class Point2D extends AbstractPoint2D {
+
+	constructor(public x: number = 0, public y: number = 0) {
+		super();
+	}
+
+	static wrap<T extends Point2DLike>(data: T) {
+		return new Point2DWrapper(data);
+	}
+}
+
+export type Point2DLike = { x: number, y: number };
+export class Point2DWrapper<T extends Point2DLike> extends AbstractPoint2D {
+	get x(): number {
+		return this.data.x;
+	}
+	set x(v: number) {
+		this.data.x = v;
+	}
+	get y(): number {
+		return this.data.y
+	}
+	set y(v: number) {
+		this.data.y = v;
+	}
+
+	constructor(private data: T) {
+		super();
+	}
+
+	unwrap() {
+		return this.data;
 	}
 
 }

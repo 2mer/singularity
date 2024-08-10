@@ -1,10 +1,14 @@
 {
 	"name": "@sgty/math",
 	"version": "1.0.0",
-	"description": "",
-	"main": "dist/index.js",
-	"module": "dist/index.mjs",
-	"types": "dist/index.dts",
+	"description": "A simple glsl-builtins like math library",
+	"exports": {
+		"./*": {
+			"import": "./dist/*.js",
+			"require": "./dist/*.js",
+			"types": "./dist/*.d.ts"
+		}
+	},
 	"scripts": {
 		"build": "tsup --clean ./src/logic/*",
 		"test": "jest"
@@ -16,5 +20,8 @@
 		"jest": "^29.7.0",
 		"tsup": "^8.2.4",
 		"typescript": "^5.5.4"
+	},
+	"devDependencies": {
+		"@types/node": "^22.2.0"
 	}
 }

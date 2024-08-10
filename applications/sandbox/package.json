@@ -1,15 +1,17 @@
 {
-  "name": "sandbox",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@sgty/math": "workspace:^1.0.0"
-  }
+	"name": "sandbox",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "ts-node ./src/index.ts"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"@sgty/math": "workspace:^1.0.0",
+		"@sgty/point": "workspace:^1.0.0",
+		"ts-node": "^10.9.2"
+	}
 }
