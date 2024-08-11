@@ -1,1 +1,1 @@
-export { Point2D } from './Point2D';
+export * from './Point2D';

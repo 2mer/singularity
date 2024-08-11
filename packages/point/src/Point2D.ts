@@ -13,40 +13,40 @@ export abstract class AbstractPoint2D {
 	abstract set x(v: number);
 	abstract set y(v: number);
 
-	add(x: number, y?: number): Point2D;
-	add(other: Point2D): Point2D;
+	add(x: number, y?: number): this;
+	add(other: AbstractPoint2D): this;
 	add(...args: any[]) {
 		const other = h(args);
 		this.crush(other, (a, b) => a + b);
 		return this;
 	}
 
-	sub(x: number, y?: number): Point2D;
-	sub(other: Point2D): Point2D;
+	sub(x: number, y?: number): this;
+	sub(other: AbstractPoint2D): this;
 	sub(...args: any[]) {
 		const other = h(args);
 		this.crush(other, (a, b) => a - b);
 		return this;
 	}
 
-	mul(x: number, y?: number): Point2D;
-	mul(other: Point2D): Point2D;
+	mul(x: number, y?: number): this;
+	mul(other: AbstractPoint2D): this;
 	mul(...args: any[]) {
 		const other = h(args);
 		this.crush(other, (a, b) => a * b);
 		return this;
 	}
 
-	div(x: number, y?: number): Point2D;
-	div(other: Point2D): Point2D;
+	div(x: number, y?: number): this;
+	div(other: AbstractPoint2D): this;
 	div(...args: any[]) {
 		const other = h(args);
 		this.crush(other, (a, b) => a / b);
 		return this;
 	}
 
-	set(x: number, y?: number): Point2D;
-	set(other: Point2D): Point2D;
+	set(x: number, y?: number): this;
+	set(other: AbstractPoint2D): this;
 	set(...args: any[]) {
 		const other = h(args);
 		this.x = other.x;
@@ -64,7 +64,7 @@ export abstract class AbstractPoint2D {
 		return this;
 	}
 
-	reach(other: Point2D, minDistance: number, maxTravel: number = Infinity): Point2D {
+	reach(other: AbstractPoint2D, minDistance: number, maxTravel: number = Infinity): this {
 		const otherDist = this.distance(other);
 
 		if (otherDist < minDistance) return this;
@@ -83,7 +83,7 @@ export abstract class AbstractPoint2D {
 	}
 
 	distance(x: number, y?: number): number;
-	distance(other: Point2D): number;
+	distance(other: AbstractPoint2D): number;
 	distance(...args: any[]) {
 		const other = h(args);
 
@@ -105,8 +105,12 @@ export abstract class AbstractPoint2D {
 		return this;
 	}
 
-	dot(other: Point2D) {
-		return (this.x * other.y) + (this.y * other.x);
+	dot(x: number, y: number): number;
+	dot(other: AbstractPoint2D): number;
+	dot(...args: any[]) {
+		const other = h(args);
+
+		return (this.x * other.x) + (this.y * other.y);
 	}
 
 	clone() {
@@ -125,12 +129,12 @@ export abstract class AbstractPoint2D {
 	}
 
 	rotateDeg(degrees: number) {
-		this.rotate(degrees / (Math.PI * 2))
+		this.rotate(degrees * (Math.PI / 180))
 
 		return this;
 	}
 
-	crush(other: Point2D, combinator: (a: number, b: number) => number) {
+	crush(other: AbstractPoint2D, combinator: (a: number, b: number) => number) {
 		this.x = combinator(this.x, other.x);
 		this.y = combinator(this.y, other.y);
 
@@ -148,8 +152,16 @@ export abstract class AbstractPoint2D {
 		return [this.x, this.y] as [x: number, y: number];
 	}
 
+	simple() {
+		return { x: this.x, y: this.y };
+	}
+
 	hash() {
 		return `${this.x},${this.y}`
+	}
+
+	equals(other: AbstractPoint2D) {
+		return this.x === other.x && this.y === other.y
 	}
 }
 
@@ -188,3 +200,11 @@ export class Point2DWrapper<T extends Point2DLike> extends AbstractPoint2D {
 	}
 
 }
+
+function vec2(...args: ConstructorParameters<typeof Point2D>) {
+	return new Point2D(...args);
+}
+
+vec2.wrap = Point2D.wrap;
+
+export { vec2 };

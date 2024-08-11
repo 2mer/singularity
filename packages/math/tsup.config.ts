@@ -4,5 +4,5 @@ export default defineConfig({
 	entry: ['src/index.ts'],
 	sourcemap: true,
 	dts: true,
-	format: ['cjs'],
+	format: ['cjs', 'esm'],
 })
