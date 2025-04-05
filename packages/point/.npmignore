@@ -3,6 +3,8 @@
 
 # Don't ignore the dist folder
 !dist/
+!dist/*
+!dist/**/*
 
 # Don't ignore the package.json file
 !package.json
