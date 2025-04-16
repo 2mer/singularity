@@ -8,7 +8,7 @@ function h([x, y = x]: any[]): Point2D {
 	return new Point2D(x, y);
 }
 
-export abstract class AbstractPoint2D implements GenericPoint<Point2DLike> {
+export abstract class AbstractPoint2D implements GenericPoint {
 	abstract get x(): number;
 	abstract get y(): number;
 	abstract set x(v: number);

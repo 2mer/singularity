@@ -1,22 +1,22 @@
-export interface GenericPoint<T = any> {
-	add(v: number): GenericPoint<T>;
-	add(other: GenericPoint<T>): GenericPoint<T>;
+export interface GenericPoint {
+	add(v: number): this;
+	add(other: this): this;
 
-	sub(v: number): GenericPoint<T>;
-	sub(other: GenericPoint<T>): GenericPoint<T>;
+	sub(v: number): this;
+	sub(other: this): this;
 
-	mul(v: number): GenericPoint<T>;
-	mul(other: GenericPoint<T>): GenericPoint<T>;
+	mul(v: number): this;
+	mul(other: this): this;
 
-	div(v: number): GenericPoint<T>;
-	div(other: GenericPoint<T>): GenericPoint<T>;
+	div(v: number): this;
+	div(other: this): this;
 
-	set(other: GenericPoint<T>): GenericPoint<T>;
+	set(other: this): this;
 
-	normalize(): GenericPoint<T>;
+	normalize(): this;
 
-	distance(other: GenericPoint<T>): number;
+	distance(other: this): number;
 	length(): number;
 
-	clone(): GenericPoint<T>;
+	clone(): this;
 }
