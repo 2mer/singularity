@@ -1,3 +1,5 @@
+import type { GenericPoint } from "./GenericPoint";
+
 function h([x, y = x]: any[]): Point2D {
 	if (x instanceof Point2D) {
 		return x;
@@ -6,8 +8,7 @@ function h([x, y = x]: any[]): Point2D {
 	return new Point2D(x, y);
 }
 
-export abstract class AbstractPoint2D {
-
+export abstract class AbstractPoint2D implements GenericPoint<Point2DLike> {
 	abstract get x(): number;
 	abstract get y(): number;
 	abstract set x(v: number);
@@ -60,21 +61,34 @@ export abstract class AbstractPoint2D {
 
 	normalize() {
 		const l = this.length();
-		this.map(v => v / l);
+		this.map((v) => v / l);
 		return this;
 	}
 
-	reach(other: AbstractPoint2D, minDistance: number, maxTravel: number = Infinity): this {
+	reach(
+		other: AbstractPoint2D,
+		minDistance: number,
+		maxTravel: number = Number.POSITIVE_INFINITY,
+	): this {
 		const otherDist = this.distance(other);
 
 		if (otherDist < minDistance) return this;
 
 		if (otherDist > maxTravel) {
-			const newPos = this.clone().sub(other).normalize().mul(-maxTravel).add(this);
+			const newPos = this.clone()
+				.sub(other)
+				.normalize()
+				.mul(-maxTravel)
+				.add(this);
 
 			this.set(newPos);
 		} else {
-			const newPos = other.clone().sub(this).normalize().mul(-minDistance).add(other);
+			const newPos = other
+				.clone()
+				.sub(this)
+				.normalize()
+				.mul(-minDistance)
+				.add(other);
 
 			this.set(newPos);
 		}
@@ -87,7 +101,9 @@ export abstract class AbstractPoint2D {
 	distance(...args: any[]) {
 		const other = h(args);
 
-		return Math.sqrt(Math.pow((this.x - other.x), 2) + Math.pow((this.y - other.y), 2))
+		return Math.sqrt(
+			Math.pow(this.x - other.x, 2) + Math.pow(this.y - other.y, 2),
+		);
 	}
 
 	floor() {
@@ -110,7 +126,7 @@ export abstract class AbstractPoint2D {
 	dot(...args: any[]) {
 		const other = h(args);
 
-		return (this.x * other.x) + (this.y * other.y);
+		return this.x * other.x + this.y * other.y;
 	}
 
 	clone() {
@@ -129,7 +145,7 @@ export abstract class AbstractPoint2D {
 	}
 
 	rotateDeg(degrees: number) {
-		this.rotate(degrees * (Math.PI / 180))
+		this.rotate(degrees * (Math.PI / 180));
 
 		return this;
 	}
@@ -157,17 +173,19 @@ export abstract class AbstractPoint2D {
 	}
 
 	hash() {
-		return `${this.x},${this.y}`
+		return `${this.x},${this.y}`;
 	}
 
 	equals(other: AbstractPoint2D) {
-		return this.x === other.x && this.y === other.y
+		return this.x === other.x && this.y === other.y;
 	}
 }
 
 export class Point2D extends AbstractPoint2D {
-
-	constructor(public x: number = 0, public y: number = 0) {
+	constructor(
+		public x = 0,
+		public y = 0,
+	) {
 		super();
 	}
 
@@ -176,7 +194,7 @@ export class Point2D extends AbstractPoint2D {
 	}
 }
 
-export type Point2DLike = { x: number, y: number };
+export type Point2DLike = { x: number; y: number };
 export class Point2DWrapper<T extends Point2DLike> extends AbstractPoint2D {
 	get x(): number {
 		return this.data.x;
@@ -185,7 +203,7 @@ export class Point2DWrapper<T extends Point2DLike> extends AbstractPoint2D {
 		this.data.x = v;
 	}
 	get y(): number {
-		return this.data.y
+		return this.data.y;
 	}
 	set y(v: number) {
 		this.data.y = v;
@@ -198,7 +216,6 @@ export class Point2DWrapper<T extends Point2DLike> extends AbstractPoint2D {
 	unwrap() {
 		return this.data;
 	}
-
 }
 
 function vec2(...args: ConstructorParameters<typeof Point2D>) {
