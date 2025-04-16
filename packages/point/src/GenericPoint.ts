@@ -1,4 +1,4 @@
-export interface GenericPoint<T> {
+export interface GenericPoint<T = any> {
 	add(v: number): GenericPoint<T>;
 	add(other: GenericPoint<T>): GenericPoint<T>;
 
