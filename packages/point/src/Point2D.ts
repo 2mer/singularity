@@ -129,9 +129,7 @@ export abstract class AbstractPoint2D implements GenericPoint<AbstractPoint2D> {
 		return this.x * other.x + this.y * other.y;
 	}
 
-	clone() {
-		return new Point2D(this.x, this.y);
-	}
+	abstract clone(): AbstractPoint2D;
 
 	rotate(angle: number) {
 		const cs = Math.cos(angle);
@@ -181,12 +179,16 @@ export abstract class AbstractPoint2D implements GenericPoint<AbstractPoint2D> {
 	}
 }
 
-export class Point2D extends AbstractPoint2D implements GenericPoint<Point2D> {
+export class Point2D extends AbstractPoint2D {
 	constructor(
 		public x = 0,
 		public y = 0,
 	) {
 		super();
+	}
+
+	clone() {
+		return new Point2D(this.x, this.y);
 	}
 
 	static wrap<T extends Point2DLike>(data: T) {
@@ -211,6 +213,10 @@ export class Point2DWrapper<T extends Point2DLike> extends AbstractPoint2D {
 
 	constructor(private data: T) {
 		super();
+	}
+
+	clone() {
+		return new Point2DWrapper(this.data);
 	}
 
 	unwrap() {
