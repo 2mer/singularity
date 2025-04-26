@@ -148,6 +148,15 @@ export abstract class AbstractPoint2D implements GenericPoint<AbstractPoint2D> {
 		return this;
 	}
 
+	angle() {
+		return Math.atan2(this.y, this.x);
+	}
+
+	angleDeg() {
+		const radians = this.angle();
+		return radians * (180 / Math.PI);
+	}
+
 	crush(other: AbstractPoint2D, combinator: (a: number, b: number) => number) {
 		this.x = combinator(this.x, other.x);
 		this.y = combinator(this.y, other.y);
