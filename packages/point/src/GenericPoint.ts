@@ -19,4 +19,5 @@ export interface GenericPoint<T extends GenericPoint<T>> {
 	length(): number;
 
 	clone(): T;
+	equals(other: T): boolean;
 }
